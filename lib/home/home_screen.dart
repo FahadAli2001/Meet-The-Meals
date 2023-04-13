@@ -104,7 +104,7 @@ class HomeScreen extends StatelessWidget {
                             //color: Colors.blueAccent,
                             image: DecorationImage(
                                 fit: BoxFit.fill,
-                                image: AssetImage('assets/Group 49.png'))),
+                                image: AssetImage('assets/optp.png'))),
                       ),
                     );
                   },
