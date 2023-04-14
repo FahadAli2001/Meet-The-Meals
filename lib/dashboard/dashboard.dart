@@ -3,8 +3,10 @@ import 'dart:developer';
 import 'package:circular_bottom_navigation/circular_bottom_navigation.dart';
 import 'package:circular_bottom_navigation/tab_item.dart';
 import 'package:flutter/material.dart';
+
 import 'package:meethemeat/home/home_screen.dart';
 import 'package:meethemeat/utils/utils.dart';
+import 'package:meethemeat/wishlist/wishlist_screen.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({super.key});
@@ -64,18 +66,10 @@ class _DashboardState extends State<Dashboard> {
   }
 
   Widget bodyContainer() {
-    Color? selectedColor = tabItems[selectedPos].circleColor;
-    List<Widget> screens = [Container(), HomeScreen(), Container()];
+    List<Widget> screens = [WishListScreen(), HomeScreen(), Container()];
     Widget selectedScreen = screens[selectedPos];
 
-    return Container(
-      width: double.infinity,
-      height: double.infinity,
-      color: selectedColor,
-      child: Center(
-        child: selectedScreen,
-      ),
-    );
+    return selectedScreen;
   }
 
   Widget bottomNav() {
