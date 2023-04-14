@@ -15,6 +15,10 @@ class WishListScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        title: const Text(
+          'Wishlist',
+          style: TextStyle(color: Colors.black),
+        ),
         elevation: 3,
         iconTheme: const IconThemeData(color: Colors.black),
         backgroundColor: Colors.white,

@@ -5,6 +5,7 @@ import 'package:circular_bottom_navigation/tab_item.dart';
 import 'package:flutter/material.dart';
 
 import 'package:meethemeat/home/home_screen.dart';
+import 'package:meethemeat/profile/profile_screen.dart';
 import 'package:meethemeat/utils/utils.dart';
 import 'package:meethemeat/wishlist/wishlist_screen.dart';
 
@@ -66,7 +67,11 @@ class _DashboardState extends State<Dashboard> {
   }
 
   Widget bodyContainer() {
-    List<Widget> screens = [WishListScreen(), HomeScreen(), Container()];
+    List<Widget> screens = [
+      WishListScreen(),
+      HomeScreen(),
+      const ProfileScreen()
+    ];
     Widget selectedScreen = screens[selectedPos];
 
     return selectedScreen;
