@@ -85,12 +85,12 @@ class HomeScreen extends StatelessWidget {
               padding: const EdgeInsets.symmetric(vertical: 10),
               child: Container(
                 width: Get.width,
-                height: Get.height * 0.15,
+                height: Get.height * 0.2,
                 decoration: const BoxDecoration(
-                    //color: Colors.amberAccent,
+                    //  / color: Colors.amberAccent,
                     image: DecorationImage(
                         image: AssetImage('assets/topOffer.png'),
-                        fit: BoxFit.fill)),
+                        fit: BoxFit.fitWidth)),
               ),
             ),
             //
