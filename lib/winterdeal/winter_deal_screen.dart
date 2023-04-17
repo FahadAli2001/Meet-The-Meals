@@ -1,8 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:meethemeat/cart/cart_screen.dart';
 
+// ignore: must_be_immutable
 class WinterDealScreen extends StatelessWidget {
-  const WinterDealScreen({super.key});
+  WinterDealScreen({super.key});
+
+  List resturants = [
+    'assets/kfc.png',
+    'assets/mac.png',
+    'assets/optp.png',
+    'assets/subway.png',
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +31,9 @@ class WinterDealScreen extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 5),
               child: IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  Get.to(() => const CartScreen());
+                },
                 icon: const Icon(Icons.shopping_bag_outlined),
                 color: Colors.black,
               ),
@@ -40,8 +51,26 @@ class WinterDealScreen extends StatelessWidget {
                       fit: BoxFit.fill)),
             ),
             Expanded(
-                child: Container(
-              color: Colors.pink,
+                child: SizedBox(
+              // color: Colors.pink,
+              child: ListView.builder(
+                physics: const BouncingScrollPhysics(),
+                itemCount: resturants.length,
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 10, vertical: 10),
+                    child: Container(
+                      width: Get.width,
+                      height: Get.height * 0.2,
+                      decoration: BoxDecoration(
+                          color: Colors.black,
+                          image: DecorationImage(
+                              image: AssetImage(resturants[index]))),
+                    ),
+                  );
+                },
+              ),
             ))
           ],
         ),

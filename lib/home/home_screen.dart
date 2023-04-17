@@ -2,6 +2,8 @@ import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:meethemeat/allrestaurant/all_restaurant_screen.dart';
+import 'package:meethemeat/cart/cart_screen.dart';
+import 'package:meethemeat/restaurant/restaurant_screen.dart';
 import 'package:meethemeat/utils/utils.dart';
 import 'package:meethemeat/winterdeal/winter_deal_screen.dart';
 
@@ -52,7 +54,9 @@ class HomeScreen extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 5),
             child: IconButton(
-              onPressed: () {},
+              onPressed: () {
+                Get.to(() => const CartScreen());
+              },
               icon: const Icon(Icons.shopping_bag_outlined),
               color: Colors.black,
             ),
@@ -126,14 +130,21 @@ class HomeScreen extends StatelessWidget {
                 itemBuilder: (context, index) {
                   return Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: Container(
-                      width: Get.width * 0.88,
-                      height: Get.height * 0.2,
-                      decoration: BoxDecoration(
-                          //color: Colors.blueAccent,
-                          image: DecorationImage(
-                              fit: BoxFit.fill,
-                              image: AssetImage(resturants[index]))),
+                    child: GestureDetector(
+                      onTap: () {
+                        if (index == 2) {
+                          Get.to(() => RestaurantScreen());
+                        } else {}
+                      },
+                      child: Container(
+                        width: Get.width * 0.88,
+                        height: Get.height * 0.2,
+                        decoration: BoxDecoration(
+                            //color: Colors.blueAccent,
+                            image: DecorationImage(
+                                fit: BoxFit.fill,
+                                image: AssetImage(resturants[index]))),
+                      ),
                     ),
                   );
                 },
