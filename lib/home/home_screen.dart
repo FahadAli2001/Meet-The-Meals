@@ -422,6 +422,14 @@ class HomeScreen extends StatelessWidget {
                 leading: const Icon(Icons.question_mark),
               ),
             ),
+            SizedBox(
+              width: Get.width,
+              child: ListTile(
+                title: const Text("Become a partner"),
+                iconColor: primaryColor,
+                leading: const Icon(Icons.handshake_sharp),
+              ),
+            ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 20),
               child: SizedBox(
