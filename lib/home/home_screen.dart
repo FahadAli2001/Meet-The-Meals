@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:meethemeat/allrestaurant/all_restaurant_screen.dart';
 import 'package:meethemeat/cart/cart_screen.dart';
+import 'package:meethemeat/orders&reordering/order_and_reordering_screen.dart';
+import 'package:meethemeat/partner/partner_screen.dart';
 import 'package:meethemeat/restaurant/restaurant_screen.dart';
 import 'package:meethemeat/utils/utils.dart';
 import 'package:meethemeat/winterdeal/winter_deal_screen.dart';
@@ -401,6 +403,9 @@ class HomeScreen extends StatelessWidget {
             SizedBox(
               width: Get.width,
               child: ListTile(
+                onTap: () {
+                  Get.to(() => const OrderAndReorderingScreen());
+                },
                 title: const Text("Orders & reordering"),
                 iconColor: primaryColor,
                 leading: const Icon(Icons.book),
@@ -425,6 +430,9 @@ class HomeScreen extends StatelessWidget {
             SizedBox(
               width: Get.width,
               child: ListTile(
+                onTap: () {
+                  Get.to(() => const PartnerScreen());
+                },
                 title: const Text("Become a partner"),
                 iconColor: primaryColor,
                 leading: const Icon(Icons.handshake_sharp),

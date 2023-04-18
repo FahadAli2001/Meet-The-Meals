@@ -180,7 +180,7 @@ class CheckOutScreen extends StatelessWidget {
                         height: Get.height * 0.23,
                         decoration: const BoxDecoration(
                             image: DecorationImage(
-                                image: AssetImage('assets/map.png'),
+                                image: AssetImage('assets/map.PNG'),
                                 fit: BoxFit.fill)),
                       ),
                     )
