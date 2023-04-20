@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:meethemeat/utils/utils.dart';
@@ -25,6 +27,8 @@ class AllRestaurantScreen extends StatelessWidget {
     'assets/subway.png',
   ];
 
+  var btn = Colors.black.obs;
+  final RxInt selectedButtonIndex = RxInt(0);
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -79,25 +83,39 @@ class AllRestaurantScreen extends StatelessWidget {
           width: Get.width,
           height: Get.height * 0.08,
           child: Card(
-            elevation: 10,
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              physics: const BouncingScrollPhysics(),
-              itemCount: options.length,
-              itemBuilder: (context, index) {
-                return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
-                  child: Center(
-                    child: Text(
-                      options[index],
-                      style: const TextStyle(
-                          color: Colors.black, fontWeight: FontWeight.bold),
+              elevation: 10,
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                physics: const BouncingScrollPhysics(),
+                itemCount: options.length,
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: GestureDetector(
+                      onTap: () {
+                        // update the selected button index
+                        selectedButtonIndex.value = index;
+                        log(selectedButtonIndex.value.toString());
+                      },
+                      child: Center(
+                        child: Obx(
+                          () => Text(
+                            options[index],
+                            style: TextStyle(
+                              color: index == selectedButtonIndex.value
+                                  ? Colors.orange
+                                  : Colors.black,
+                              // if the index matches the selected button index, show the button in orange,
+                              // otherwise show it in black
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
                     ),
-                  ),
-                );
-              },
-            ),
-          ),
+                  );
+                },
+              )),
         ),
         for (var i = 0; i < resturants.length; i++) ...[
           Padding(

@@ -461,7 +461,7 @@ class HomeScreen extends StatelessWidget {
                 onTap: () {
                   AwesomeDialog(
                     context: context,
-                    dialogType: DialogType.info,
+                    dialogType: DialogType.question,
                     animType: AnimType.rightSlide,
                     title: 'Logout',
                     desc: 'Are you sure you want to logout?',

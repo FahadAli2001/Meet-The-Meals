@@ -1,3 +1,7 @@
+// ignore_for_file: must_be_immutable
+
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:meethemeat/utils/utils.dart';
@@ -7,6 +11,8 @@ import 'resturant_detail_screen.dart';
 
 class RestaurantScreen extends StatelessWidget {
   RestaurantScreen({super.key});
+
+  final RxBool isSelected = false.obs;
 
   final List menu = [
     'Popular',
@@ -37,6 +43,10 @@ class RestaurantScreen extends StatelessWidget {
     'assets/b3.png',
     'assets/b4.png',
   ];
+
+  var selectedIndex = 0.obs;
+
+  var btn = Colors.black.obs;
 
   @override
   Widget build(BuildContext context) {
@@ -147,16 +157,29 @@ class RestaurantScreen extends StatelessWidget {
               child: Card(
                 elevation: 10,
                 child: ListView.builder(
+                  physics: const BouncingScrollPhysics(),
                   scrollDirection: Axis.horizontal,
                   itemCount: menu.length,
                   itemBuilder: (context, index) {
                     return Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 10),
-                      child: Center(
-                        child: Text(
-                          menu[index],
-                          style: const TextStyle(
-                              fontWeight: FontWeight.bold, color: Colors.black),
+                      child: Obx(
+                        () => Center(
+                          child: GestureDetector(
+                            onTap: () {
+                              log(index.toString());
+                              log('ontap');
+                              selectedIndex.value = index;
+                            },
+                            child: Text(
+                              menu[index],
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: selectedIndex.value == index
+                                      ? primaryColor
+                                      : Colors.black),
+                            ),
+                          ),
                         ),
                       ),
                     );
