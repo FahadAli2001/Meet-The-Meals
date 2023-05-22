@@ -96,7 +96,7 @@ class SendOTPScreen extends StatelessWidget {
                     color: primaryColor,
                     child: const Text("Send OTP"),
                     onPressed: () {
-                      Get.to(() => const VerifyOTPScreen());
+                      Get.to(() => VerifyOTPScreen());
                     }),
               ),
             ),

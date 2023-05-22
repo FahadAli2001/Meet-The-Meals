@@ -179,7 +179,7 @@ class LoginScreen extends StatelessWidget {
                           style: TextStyle(color: primaryColor, fontSize: 15),
                           recognizer: TapGestureRecognizer()
                             ..onTap = () {
-                              Get.to(() => const SignUpScreen());
+                              Get.to(() => SignUpScreen());
                             })
                     ]),
               ),

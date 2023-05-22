@@ -1,13 +1,56 @@
+import 'dart:io';
+
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:meethemeat/otp/send_otp_screen.dart';
+
+import 'package:meethemeat/signUp/sign_up_controller.dart';
 
 import '../utils/utils.dart';
 
 class SignUpScreen extends StatelessWidget {
-  const SignUpScreen({super.key});
+  SignUpScreen({super.key});
+
+  SignUpController signUpController = Get.put(SignUpController());
+  void showAwesomeSnackbar() {
+    Get.snackbar(
+      'Title',
+      'Message',
+      snackPosition: SnackPosition.BOTTOM,
+      backgroundColor: Colors.blue,
+      barBlur: 20.0,
+      overlayBlur: 5.0,
+      borderWidth: 2.0,
+      borderColor: Colors.white,
+      borderRadius: 10.0,
+      forwardAnimationCurve: Curves.easeOut,
+      reverseAnimationCurve: Curves.easeIn,
+      duration: Duration(seconds: 3),
+      snackbarStatus: (status) {
+        // Handle snackbar status (e.g., closed, dismissed, etc.)
+      },
+      mainButton: TextButton(
+        onPressed: () {
+          // Handle button press
+        },
+        child: Text(
+          'Action',
+          style: TextStyle(color: Colors.white),
+        ),
+      ),
+      isDismissible: true,
+      showProgressIndicator: false,
+      progressIndicatorBackgroundColor: Colors.white,
+      progressIndicatorValueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
+      messageText: AwesomeSnackbarContent(
+        title: "help",
+        message: 'Custom message',
+        contentType: ContentType.warning,
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -71,6 +114,7 @@ class SignUpScreen extends StatelessWidget {
                 padding:
                     const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                 child: TextField(
+                  controller: signUpController.userNameController,
                   style: const TextStyle(height: 0.5),
                   decoration: InputDecoration(
                       hintText: "Enter Username",
@@ -84,6 +128,7 @@ class SignUpScreen extends StatelessWidget {
                 padding:
                     const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                 child: TextField(
+                  controller: signUpController.emailController,
                   style: const TextStyle(height: 0.5),
                   decoration: InputDecoration(
                       hintText: "Enter Email",
@@ -97,6 +142,7 @@ class SignUpScreen extends StatelessWidget {
                 padding:
                     const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                 child: TextField(
+                  controller: signUpController.passwordController,
                   style: const TextStyle(height: 0.5),
                   decoration: InputDecoration(
                       suffixIcon: const Icon(CupertinoIcons.eye),
@@ -111,6 +157,7 @@ class SignUpScreen extends StatelessWidget {
                 padding:
                     const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                 child: TextField(
+                  controller: signUpController.confirmPasswordController,
                   style: const TextStyle(height: 0.5),
                   decoration: InputDecoration(
                       suffixIcon: const Icon(CupertinoIcons.eye),
@@ -141,7 +188,9 @@ class SignUpScreen extends StatelessWidget {
                       color: primaryColor,
                       child: const Text("Next"),
                       onPressed: () {
-                        Get.to(() => const SendOTPScreen());
+                        showAwesomeSnackbar();
+
+                        //  Get.to(() => const SendOTPScreen());
                       }),
                 ),
               ),

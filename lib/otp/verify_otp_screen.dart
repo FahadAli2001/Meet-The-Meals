@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
@@ -5,14 +6,33 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:meethemeat/login/login_screen.dart';
+import 'package:meethemeat/otp/otp_controller.dart';
 import 'package:meethemeat/utils/utils.dart';
 import 'package:otp_text_field/otp_field.dart';
 import 'package:otp_text_field/otp_field_style.dart';
 import 'package:otp_text_field/style.dart';
 
-class VerifyOTPScreen extends StatelessWidget {
+// ignore: must_be_immutable
+class VerifyOTPScreen extends StatefulWidget {
   const VerifyOTPScreen({super.key});
 
+  @override
+  State<VerifyOTPScreen> createState() => _VerifyOTPScreenState();
+}
+
+class _VerifyOTPScreenState extends State<VerifyOTPScreen> {
+  OtpController optController = Get.put(OtpController());
+
+  @override
+  void initState() {
+    
+    Timer(const Duration(seconds: 2), () {
+      optController.generateRandomNumber();
+    });
+    super.initState();
+  }
+
+  // @override
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -70,6 +90,7 @@ class VerifyOTPScreen extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(top: 50),
                 child: OTPTextField(
+                  controller: optController.verifyOtpController,
                   otpFieldStyle: OtpFieldStyle(
                       enabledBorderColor: primaryColor,
                       focusBorderColor: primaryColor,
