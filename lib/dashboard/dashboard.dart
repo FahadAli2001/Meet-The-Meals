@@ -3,8 +3,10 @@ import 'dart:developer';
 import 'package:circular_bottom_navigation/circular_bottom_navigation.dart';
 import 'package:circular_bottom_navigation/tab_item.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import 'package:meethemeat/home/home_screen.dart';
+import 'package:meethemeat/login/login_controller.dart';
 import 'package:meethemeat/profile/profile_screen.dart';
 import 'package:meethemeat/utils/utils.dart';
 import 'package:meethemeat/wishlist/wishlist_screen.dart';
@@ -51,10 +53,12 @@ class _DashboardState extends State<Dashboard> {
   ]);
 
   late CircularBottomNavigationController _navigationController;
-
+  final LoginController _loginController = Get.put(LoginController());
   @override
   void initState() {
     super.initState();
+    _loginController.userDetail();
+
     _navigationController = CircularBottomNavigationController(selectedPos);
   }
 
@@ -67,11 +71,7 @@ class _DashboardState extends State<Dashboard> {
   }
 
   Widget bodyContainer() {
-    List<Widget> screens = [
-      WishListScreen(),
-      HomeScreen(),
-      const ProfileScreen()
-    ];
+    List<Widget> screens = [WishListScreen(), HomeScreen(), ProfileScreen()];
     Widget selectedScreen = screens[selectedPos];
 
     return selectedScreen;

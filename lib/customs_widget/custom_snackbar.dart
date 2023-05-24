@@ -1,31 +1,56 @@
-import 'package:flutter/material.dart';
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
-import 'package:get/get_navigation/src/snackbar/snackbar.dart';
+import 'package:flutter/material.dart';
 
-// ignore: must_be_immutable
-class CustomSnackbar extends GetBar {
-  String title;
-  String msg;
-
-  CustomSnackbar({
-    super.key,
-    required this.title,
-    required this.msg,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return SnackBar(
-      /// need to set following properties for best effect of awesome_snackbar_content
-      elevation: 10,
+void customWarningSnackbar(BuildContext context, String title, String msg) {
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+      dismissDirection: DismissDirection.startToEnd,
+      duration: const Duration(seconds: 3),
+      elevation: 0,
       behavior: SnackBarBehavior.floating,
-      backgroundColor: Colors.orange,
-      dismissDirection: DismissDirection.up,
+      backgroundColor: Colors.transparent,
       content: AwesomeSnackbarContent(
         title: title,
         message: msg,
+        messageFontSize: 15,
         contentType: ContentType.warning,
       ),
-    );
-  }
+    ),
+  );
+}
+
+void customErrorSnackbar(BuildContext context, String title, String msg) {
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+      dismissDirection: DismissDirection.startToEnd,
+      duration: const Duration(seconds: 3),
+      elevation: 0,
+      behavior: SnackBarBehavior.floating,
+      backgroundColor: Colors.transparent,
+      content: AwesomeSnackbarContent(
+        title: title,
+        message: msg,
+        messageFontSize: 15,
+        contentType: ContentType.failure,
+      ),
+    ),
+  );
+}
+
+void customSuccessSnackbar(BuildContext context, String title, String msg) {
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+      dismissDirection: DismissDirection.startToEnd,
+      duration: const Duration(seconds: 3),
+      elevation: 0,
+      behavior: SnackBarBehavior.floating,
+      backgroundColor: Colors.transparent,
+      content: AwesomeSnackbarContent(
+        title: title,
+        message: msg,
+        messageFontSize: 15,
+        contentType: ContentType.success,
+      ),
+    ),
+  );
 }

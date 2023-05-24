@@ -1,56 +1,16 @@
-import 'dart:io';
-
-import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import 'package:meethemeat/signUp/sign_up_controller.dart';
 
 import '../utils/utils.dart';
 
+// ignore: must_be_immutable
 class SignUpScreen extends StatelessWidget {
   SignUpScreen({super.key});
 
   SignUpController signUpController = Get.put(SignUpController());
-  void showAwesomeSnackbar() {
-    Get.snackbar(
-      'Title',
-      'Message',
-      snackPosition: SnackPosition.BOTTOM,
-      backgroundColor: Colors.blue,
-      barBlur: 20.0,
-      overlayBlur: 5.0,
-      borderWidth: 2.0,
-      borderColor: Colors.white,
-      borderRadius: 10.0,
-      forwardAnimationCurve: Curves.easeOut,
-      reverseAnimationCurve: Curves.easeIn,
-      duration: Duration(seconds: 3),
-      snackbarStatus: (status) {
-        // Handle snackbar status (e.g., closed, dismissed, etc.)
-      },
-      mainButton: TextButton(
-        onPressed: () {
-          // Handle button press
-        },
-        child: Text(
-          'Action',
-          style: TextStyle(color: Colors.white),
-        ),
-      ),
-      isDismissible: true,
-      showProgressIndicator: false,
-      progressIndicatorBackgroundColor: Colors.white,
-      progressIndicatorValueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
-      messageText: AwesomeSnackbarContent(
-        title: "help",
-        message: 'Custom message',
-        contentType: ContentType.warning,
-      ),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -141,39 +101,73 @@ class SignUpScreen extends StatelessWidget {
               Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                child: TextField(
-                  controller: signUpController.passwordController,
-                  style: const TextStyle(height: 0.5),
-                  decoration: InputDecoration(
-                      suffixIcon: const Icon(CupertinoIcons.eye),
-                      hintText: "Enter Password",
-                      labelText: "Password",
-                      focusColor: primaryColor,
-                      border: const OutlineInputBorder()),
+                child: Obx(
+                  () => TextField(
+                    obscureText: signUpController.password.value,
+                    controller: signUpController.passwordController,
+                    style: const TextStyle(height: 0.5),
+                    decoration: InputDecoration(
+                        // suffixIcon:  Icon(CupertinoIcons.eye),
+                        suffixIcon: IconButton(
+                          onPressed: () {
+                            if (signUpController.password.value == true) {
+                              signUpController.password.value = false;
+                            } else {
+                              signUpController.password.value = true;
+                            }
+                          },
+                          icon: (signUpController.password.value == false)
+                              ? const Icon(Icons.visibility)
+                              : const Icon(Icons.visibility_off),
+                        ),
+                        hintText: "Enter Password",
+                        labelText: "Password",
+                        focusColor: primaryColor,
+                        border: const OutlineInputBorder()),
+                  ),
                 ),
               ),
               //
               Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                child: TextField(
-                  controller: signUpController.confirmPasswordController,
-                  style: const TextStyle(height: 0.5),
-                  decoration: InputDecoration(
-                      suffixIcon: const Icon(CupertinoIcons.eye),
-                      hintText: "Confirm Password",
-                      labelText: "Confirm Password",
-                      focusColor: primaryColor,
-                      border: const OutlineInputBorder()),
+                child: Obx(
+                  () => TextField(
+                    obscureText: signUpController.conPassword.value,
+                    controller: signUpController.confirmPasswordController,
+                    style: const TextStyle(height: 0.5),
+                    decoration: InputDecoration(
+                        suffixIcon: IconButton(
+                            onPressed: () {
+                              if (signUpController.conPassword.value == true) {
+                                signUpController.conPassword.value = false;
+                              } else {
+                                signUpController.conPassword.value = true;
+                              }
+                            },
+                            icon: (signUpController.conPassword.value == false)
+                                ? const Icon(Icons.visibility)
+                                : const Icon(Icons.visibility_off)),
+                        hintText: "Confirm Password",
+                        labelText: "Confirm Password",
+                        focusColor: primaryColor,
+                        border: const OutlineInputBorder()),
+                  ),
                 ),
               ),
               //
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 15),
                 child: Row(
-                  children: const [
-                    Checkbox(value: true, onChanged: null),
-                    Text("Agree with our terms and conditions")
+                  children: [
+                    Obx(
+                      () => Checkbox(
+                          value: signUpController.agreeWithTerms.value,
+                          onChanged: (val) {
+                            signUpController.handleCheckBox(val);
+                          }),
+                    ),
+                    const Text("Agree with our terms and conditions")
                   ],
                 ),
               ),
@@ -188,14 +182,15 @@ class SignUpScreen extends StatelessWidget {
                       color: primaryColor,
                       child: const Text("Next"),
                       onPressed: () {
-                        showAwesomeSnackbar();
-
+                        signUpController.registerUser(
+                          context,
+                        );
                         //  Get.to(() => const SendOTPScreen());
                       }),
                 ),
               ),
 
-              // commint
+              // co
 
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 10),

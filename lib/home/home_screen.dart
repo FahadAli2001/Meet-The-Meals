@@ -1,13 +1,11 @@
-import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:meethemeat/allrestaurant/all_restaurant_screen.dart';
 import 'package:meethemeat/cart/cart_screen.dart';
-import 'package:meethemeat/orders&reordering/order_and_reordering_screen.dart';
-import 'package:meethemeat/partner/partner_screen.dart';
 import 'package:meethemeat/restaurant/restaurant_screen.dart';
-import 'package:meethemeat/utils/utils.dart';
 import 'package:meethemeat/winterdeal/winter_deal_screen.dart';
+
+import '../customs_widget/drawer.dart';
 
 // ignore: must_be_immutable
 class HomeScreen extends StatelessWidget {
@@ -42,16 +40,11 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: drawer(context),
+      drawer: CustomDrawer(),
       appBar: AppBar(
         elevation: 3,
         iconTheme: const IconThemeData(color: Colors.black),
         backgroundColor: Colors.white,
-        // leading: IconButton(
-        //   onPressed: () {},
-        //   icon: const Icon(Icons.menu),
-        //   color: Colors.black,
-        // ),
         actions: [
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 5),
@@ -315,165 +308,6 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
             //
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget drawer(BuildContext context) {
-    return Drawer(
-      child: SizedBox(
-        height: Get.height,
-        width: Get.width,
-        child: Column(
-          children: [
-            Container(
-              width: Get.width,
-              height: Get.height * 0.14,
-              decoration: const BoxDecoration(
-                  //color: Colors.amber,
-                  image: DecorationImage(
-                      image: AssetImage('assets/Rectangle 1.png'),
-                      fit: BoxFit.fill)),
-              child: Center(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Container(
-                    width: 100,
-                    height: 70,
-                    // color: Colors.white,
-                    decoration: const BoxDecoration(
-                        image: DecorationImage(
-                            image: AssetImage('assets/mtm.png'),
-                            fit: BoxFit.cover)),
-                  ),
-                ),
-              ),
-            ),
-            //
-            const Padding(
-              padding: EdgeInsets.only(top: 15),
-              child: Center(
-                  child: Text(
-                "Meat To Meal",
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold),
-              )),
-            ),
-            //
-            const Center(
-                child: Text(
-              "meatomeal@gmail.com",
-              style: TextStyle(
-                color: Colors.grey,
-                fontSize: 15,
-              ),
-            )),
-            //
-            Padding(
-              padding: const EdgeInsets.only(top: 30),
-              child: SizedBox(
-                width: Get.width,
-                child: const Divider(
-                  height: 0.5,
-                  color: Colors.black,
-                ),
-              ),
-            ),
-            SizedBox(
-              width: Get.width,
-              child: ListTile(
-                title: const Text("Profile"),
-                iconColor: primaryColor,
-                leading: const Icon(Icons.person),
-              ),
-            ),
-
-            SizedBox(
-              width: Get.width,
-              child: ListTile(
-                title: const Text("Address"),
-                iconColor: primaryColor,
-                leading: const Icon(Icons.pin_drop),
-              ),
-            ),
-            SizedBox(
-              width: Get.width,
-              child: ListTile(
-                onTap: () {
-                  Get.to(() => const OrderAndReorderingScreen());
-                },
-                title: const Text("Orders & reordering"),
-                iconColor: primaryColor,
-                leading: const Icon(Icons.book),
-              ),
-            ),
-            SizedBox(
-              width: Get.width,
-              child: ListTile(
-                title: const Text("Settings"),
-                iconColor: primaryColor,
-                leading: const Icon(Icons.settings),
-              ),
-            ),
-            SizedBox(
-              width: Get.width,
-              child: ListTile(
-                title: const Text("Help Center"),
-                iconColor: primaryColor,
-                leading: const Icon(Icons.question_mark),
-              ),
-            ),
-            SizedBox(
-              width: Get.width,
-              child: ListTile(
-                onTap: () {
-                  Get.to(() => const PartnerScreen());
-                },
-                title: const Text("Become a partner"),
-                iconColor: primaryColor,
-                leading: const Icon(Icons.handshake_sharp),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 20),
-              child: SizedBox(
-                width: Get.width,
-                child: const Divider(
-                  height: 0.5,
-                  color: Colors.black,
-                ),
-              ),
-            ),
-            const Text(
-              "Terms & conditions/Policy",
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 15,
-              ),
-            ),
-            SizedBox(
-              width: Get.width,
-              child: ListTile(
-                onTap: () {
-                  AwesomeDialog(
-                    context: context,
-                    dialogType: DialogType.question,
-                    animType: AnimType.rightSlide,
-                    title: 'Logout',
-                    desc: 'Are you sure you want to logout?',
-                    btnCancelOnPress: () {},
-                    btnOkOnPress: () {},
-                  ).show();
-                },
-                title: const Text("Logout"),
-                iconColor: primaryColor,
-                leading: const Icon(Icons.logout),
-              ),
-            ),
           ],
         ),
       ),

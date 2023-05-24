@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:meethemeat/login/login_controller.dart';
 import 'package:meethemeat/utils/utils.dart';
 
 class ProfileScreen extends StatelessWidget {
-  const ProfileScreen({super.key});
+  ProfileScreen({super.key});
+  final LoginController _loginController = Get.put(LoginController());
 
   @override
   Widget build(BuildContext context) {
@@ -17,11 +19,6 @@ class ProfileScreen extends StatelessWidget {
           elevation: 3,
           iconTheme: const IconThemeData(color: Colors.black),
           backgroundColor: Colors.white,
-          // leading: IconButton(
-          //   onPressed: () {},
-          //   icon: const Icon(Icons.menu),
-          //   color: Colors.black,
-          // ),
           actions: [
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 5),
@@ -43,9 +40,9 @@ class ProfileScreen extends StatelessWidget {
                 width: Get.width,
                 child: ListTile(
                   title: const Text('Name'),
-                  subtitle: const Text(
-                    "Meat the meals",
-                    style: TextStyle(
+                  subtitle: Text(
+                    _loginController.name.value,
+                    style: const TextStyle(
                         color: Colors.black, fontWeight: FontWeight.bold),
                   ),
                   trailing: Icon(
@@ -62,9 +59,9 @@ class ProfileScreen extends StatelessWidget {
                   width: Get.width,
                   child: ListTile(
                     title: const Text('Email'),
-                    subtitle: const Text(
-                      "meathemeals@gmail.com",
-                      style: TextStyle(
+                    subtitle: Text(
+                      _loginController.email.value,
+                      style: const TextStyle(
                           color: Colors.black, fontWeight: FontWeight.bold),
                     ),
                     trailing: Icon(
@@ -79,10 +76,10 @@ class ProfileScreen extends StatelessWidget {
                 color: Colors.grey.shade300,
                 width: Get.width,
                 child: ListTile(
-                  title: const Text('Address'),
-                  subtitle: const Text(
-                    "Pakistan",
-                    style: TextStyle(
+                  title: const Text('Phone Number'),
+                  subtitle: Text(
+                    _loginController.phoneNumber.value,
+                    style: const TextStyle(
                         color: Colors.black, fontWeight: FontWeight.bold),
                   ),
                   trailing: Icon(

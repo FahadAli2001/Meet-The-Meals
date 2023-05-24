@@ -1,12 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
 import 'package:meethemeat/otp/verify_otp_screen.dart';
+import 'package:meethemeat/signUp/sign_up_controller.dart';
 
 import '../utils/utils.dart';
 
 class SendOTPScreen extends StatelessWidget {
-  const SendOTPScreen({super.key});
+  SendOTPScreen({super.key});
+
+  final SignUpController signUpController = Get.put(SignUpController());
 
   @override
   Widget build(BuildContext context) {
@@ -65,6 +69,8 @@ class SendOTPScreen extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 25),
               child: TextField(
+                keyboardType: TextInputType.phone,
+                controller: signUpController.phoneNumberController,
                 style: const TextStyle(height: 0.5),
                 decoration: InputDecoration(
                   hintText: "+92",
@@ -96,7 +102,7 @@ class SendOTPScreen extends StatelessWidget {
                     color: primaryColor,
                     child: const Text("Send OTP"),
                     onPressed: () {
-                      Get.to(() => VerifyOTPScreen());
+                      Get.to(() => const VerifyOTPScreen());
                     }),
               ),
             ),

@@ -5,8 +5,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:meethemeat/login/login_screen.dart';
 import 'package:meethemeat/otp/otp_controller.dart';
+import 'package:meethemeat/signUp/sign_up_controller.dart';
 import 'package:meethemeat/utils/utils.dart';
 import 'package:otp_text_field/otp_field.dart';
 import 'package:otp_text_field/otp_field_style.dart';
@@ -22,10 +22,10 @@ class VerifyOTPScreen extends StatefulWidget {
 
 class _VerifyOTPScreenState extends State<VerifyOTPScreen> {
   OtpController optController = Get.put(OtpController());
+  SignUpController signUpController = Get.put(SignUpController());
 
   @override
   void initState() {
-    
     Timer(const Duration(seconds: 2), () {
       optController.generateRandomNumber();
     });
@@ -137,7 +137,12 @@ class _VerifyOTPScreenState extends State<VerifyOTPScreen> {
                       color: primaryColor,
                       child: const Text("Verify OTP"),
                       onPressed: () {
-                        Get.offAll(() => const LoginScreen());
+                        signUpController.registerUserInfo(
+                            context,
+                            signUpController.userNameController.text,
+                            signUpController.emailController.text,
+                            signUpController.passwordController.text,
+                            signUpController.phoneNumberController.text);
                       }),
                 ),
               ),

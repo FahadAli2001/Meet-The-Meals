@@ -3,12 +3,15 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:meethemeat/dashboard/dashboard.dart';
+
+import 'package:meethemeat/login/login_controller.dart';
 import 'package:meethemeat/signUp/sign_up.dart';
 import 'package:meethemeat/utils/utils.dart';
 
 class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key});
+  LoginScreen({super.key});
+
+  final LoginController loginController = Get.put(LoginController());
 
   @override
   Widget build(BuildContext context) {
@@ -70,6 +73,7 @@ class LoginScreen extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               child: TextField(
+                controller: loginController.emailController,
                 style: const TextStyle(height: 0.5),
                 decoration: InputDecoration(
                     hintText: "Enter Email",
@@ -81,14 +85,29 @@ class LoginScreen extends StatelessWidget {
             //
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-              child: TextField(
-                style: const TextStyle(height: 0.5),
-                decoration: InputDecoration(
-                    suffixIcon: const Icon(CupertinoIcons.eye),
-                    hintText: "Enter Password",
-                    labelText: "Password",
-                    focusColor: primaryColor,
-                    border: const OutlineInputBorder()),
+              child: Obx(
+                () => TextField(
+                  controller: loginController.passwordController,
+                  style: const TextStyle(height: 0.5),
+                  obscureText: loginController.passObsecure.value,
+                  decoration: InputDecoration(
+                      suffixIcon: IconButton(
+                        onPressed: () {
+                          if (loginController.passObsecure.value == true) {
+                            loginController.passObsecure.value = false;
+                          } else {
+                            loginController.passObsecure.value = true;
+                          }
+                        },
+                        icon: (loginController.passObsecure.value == true)
+                            ? const Icon(Icons.visibility_off)
+                            : const Icon(Icons.visibility),
+                      ),
+                      hintText: "Enter Password",
+                      labelText: "Password",
+                      focusColor: primaryColor,
+                      border: const OutlineInputBorder()),
+                ),
               ),
             ),
             //
@@ -96,9 +115,15 @@ class LoginScreen extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15),
               child: Row(
-                children: const [
-                  Checkbox(value: true, onChanged: null),
-                  Text("Keep me logged in")
+                children: [
+                  Obx(
+                    () => Checkbox(
+                        value: loginController.checkBox.value,
+                        onChanged: (value) {
+                          loginController.handleCheckBox(value);
+                        }),
+                  ),
+                  const Text("Keep me logged in")
                 ],
               ),
             ),
@@ -160,7 +185,7 @@ class LoginScreen extends StatelessWidget {
                     color: primaryColor,
                     child: const Text("Login"),
                     onPressed: () {
-                      Get.offAll(() => const Dashboard());
+                      loginController.loginUser(context);
                     }),
               ),
             ),

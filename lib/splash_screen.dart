@@ -1,7 +1,10 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:meethemeat/dashboard/dashboard.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'login/login_screen.dart';
 
@@ -15,9 +18,20 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
+    checkLoginStatus();
     super.initState();
-    Timer(const Duration(seconds: 3), () {
-      Get.offAll(() => const LoginScreen());
+  }
+
+  Future checkLoginStatus() async {
+    SharedPreferences sp = await SharedPreferences.getInstance();
+    var keepLogin = sp.getBool('keepLogin')!;
+    log(keepLogin.toString());
+    Timer(const Duration(seconds: 5), () {
+      if (keepLogin == false) {
+        Get.offAll(() => LoginScreen());
+      } else {
+        Get.to(() => const Dashboard());
+      }
     });
   }
 
