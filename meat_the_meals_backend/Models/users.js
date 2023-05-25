@@ -1,8 +1,8 @@
 
-const { default: mongoose } = require('mongoose');
-const mongoo = require('mongoose');
 
-const UserSchema = mongoo.Schema({
+const mongoose = require('mongoose');
+
+const UserSchema = mongoose.Schema({
     _id:mongoose.Schema.Types.ObjectId,
     name:String,
     email:String,
@@ -10,4 +10,4 @@ const UserSchema = mongoo.Schema({
     phonenumber:Number
 });
 
-module.exports = mongoo.model('users',UserSchema);
+module.exports = mongoose.model('users',UserSchema);

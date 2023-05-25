@@ -1,24 +1,33 @@
 const express = require('express');
-const mongoo = require('mongoose')
+const mongoose = require("mongoose")
 const bodyParser = require('body-parser');
 const app = express();
 
 
 
 
+// mongodb://localhost:27017/
+
+// mongodb+srv://fahad2001:fahad2001@cluster0.knrcws8.mongodb.net/?retryWrites=true&w=majority
+mongoose.connect('mongodb://0.0.0.0:27017/meatTheMeals', { useNewUrlParser: true, useUnifiedTopology: true });
 
 
-mongoo.connect('mongodb+srv://fahad2001:fahad2001@cluster0.knrcws8.mongodb.net/?retryWrites=true&w=majority');
+const db = mongoose.connection;
 
-mongoo.connection.on('connected',connected=>{
-    console.log("Mongoo DB connected sucessfully");
+db.on('open', () => {
+    console.log('MongoDB connected successfully');
 });
 
-mongoo.connection.on('err',err=>{
-    console.log("Mongo DB not connected " + err);
+db.on('error', (err) => {
+    console.log('MongoDB connection error:', err);
+});
+
+db.on('disconnected', () => {
+    console.log('MongoDB disconnected');
 });
 
 const UserRoute = require('./Routes/users');
+const CategoryRoute = require('./Routes/categories');
 
 app.use(bodyParser.urlencoded({extended:false}));
 app.use(bodyParser.json());
@@ -26,7 +35,7 @@ app.use(bodyParser.json());
 
 
 app.use('/user',UserRoute);
-
+app.use('/category',CategoryRoute);
 
 app.use((req,res)=>{
     res.status(404).json({
