@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:meethemeat/allrestaurant/all_restaurant_screen.dart';
 import 'package:meethemeat/cart/cart_screen.dart';
+import 'package:meethemeat/home/home_controller.dart';
 import 'package:meethemeat/restaurant/restaurant_screen.dart';
 import 'package:meethemeat/winterdeal/winter_deal_screen.dart';
 
@@ -10,7 +11,11 @@ import '../customs_widget/drawer.dart';
 // ignore: must_be_immutable
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
-
+/*
+  https://www.linkpicture.com/q/kfc.png
+  https://www.linkpicture.com/q/mac_1.png
+  https://www.linkpicture.com/q/subway.png
+*/ 
   List categorey = [
     'assets/burger.png',
     'assets/donat.png',
@@ -37,6 +42,8 @@ class HomeScreen extends StatelessWidget {
     'assets/sd2.png',
   ];
 
+  final HomeController homeController = Get.put(HomeController());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,6 +58,7 @@ class HomeScreen extends StatelessWidget {
             child: IconButton(
               onPressed: () {
                 Get.to(() => const CartScreen());
+                // homeController.getAllCategory(context);
               },
               icon: const Icon(Icons.shopping_bag_outlined),
               color: Colors.black,
@@ -145,7 +153,7 @@ class HomeScreen extends StatelessWidget {
                 },
               ),
             ),
-            //
+            // ----------- Categories ----------------
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 10),
               child: Align(
@@ -160,31 +168,55 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
             //
-            SizedBox(
-              width: Get.width,
-              height: Get.height * 0.1,
-              child: ListView.builder(
-                physics: const BouncingScrollPhysics(),
-                scrollDirection: Axis.horizontal,
-                itemCount: categorey.length,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: Container(
-                      width: Get.width * 0.2,
-                      height: Get.height * 0.1,
-                      decoration: BoxDecoration(
-                        //color: Colors.blue,
-                        image: DecorationImage(
-                            image: AssetImage(categorey[index]),
-                            fit: BoxFit.fill),
-                      ),
-                    ),
+            FutureBuilder(
+              future: homeController.getAllCategory(context),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const CircularProgressIndicator(
+                    color: Colors.white,
                   );
-                },
-              ),
+                }
+                return SizedBox(
+                  width: Get.width,
+                  height: Get.height * 0.15,
+                  child: ListView.builder(
+                    physics: const BouncingScrollPhysics(),
+                    scrollDirection: Axis.horizontal,
+                    itemCount: homeController.allCategory["categories"].length,
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        child: Column(
+                          children: [
+                            Container(
+                              width: Get.width * 0.2,
+                              height: Get.height * 0.1,
+                              decoration: BoxDecoration(
+                                //color: Colors.blue,
+                                image: DecorationImage(
+                                    image: NetworkImage(
+                                        homeController.allCategory["categories"]
+                                            [index]['image']),
+                                    fit: BoxFit.fill),
+                              ),
+                            ),
+                            Center(
+                              child: Text(
+                                homeController.allCategory["categories"][index]
+                                    ['name'],
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            )
+                          ],
+                        ),
+                      );
+                    },
+                  ),
+                );
+              },
             ),
-            //
+            //--------- All Restaurants -----------
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 10),
               child: Align(
@@ -198,32 +230,52 @@ class HomeScreen extends StatelessWidget {
                 ),
               ),
             ),
-            //
-            //
-            SizedBox(
-              width: Get.width,
-              height: Get.height * 0.2,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                physics: const BouncingScrollPhysics(),
-                itemCount: resturants.length,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: Container(
-                      width: Get.width * 0.88,
-                      height: Get.height * 0.2,
-                      decoration: BoxDecoration(
-                          //color: Colors.blueAccent,
-                          image: DecorationImage(
-                              fit: BoxFit.fill,
-                              image: AssetImage(resturants[index]))),
-                    ),
+
+            FutureBuilder(
+              future: homeController.getAllRestaurant(context),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const CircularProgressIndicator(
+                    color: Colors.white,
                   );
-                },
-              ),
+                }
+                return SizedBox(
+                  width: Get.width,
+                  height: Get.height * 0.2,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    physics: const BouncingScrollPhysics(),
+                    itemCount:
+                        homeController.allRestaurant["restaurant"].length,
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        child: GestureDetector(
+                          onTap: () {
+                              Get.to(() => RestaurantScreen(),arguments: {
+                                "detail": homeController.allRestaurant["restaurant"]
+                                            [index]
+                              });
+                          },
+                          child: Container(
+                            width: Get.width * 0.88,
+                            height: Get.height * 0.2,
+                            decoration: BoxDecoration(
+                                //color: Colors.blueAccent,
+                                image: DecorationImage(
+                                    fit: BoxFit.fill,
+                                    image: NetworkImage(
+                                        homeController.allRestaurant["restaurant"]
+                                            [index]["image"]))),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                );
+              },
             ),
-            //
+            // ----------------- Daily Deals ------------------
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 15),
               child: Align(
@@ -262,7 +314,7 @@ class HomeScreen extends StatelessWidget {
                 },
               ),
             ),
-            //
+            // ----------------- Seasonal Deals -------------------
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 15),
               child: Align(

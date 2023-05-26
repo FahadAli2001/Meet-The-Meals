@@ -13,16 +13,7 @@ class RestaurantScreen extends StatelessWidget {
   RestaurantScreen({super.key});
 
   final RxBool isSelected = false.obs;
-
-  final List menu = [
-    'Popular',
-    'Top Deals',
-    'Burgers',
-    'Fries',
-    'Family Bags',
-    'Drinks',
-    'Extras'
-  ];
+  final data = Get.arguments;
 
   final List popular = [
     'assets/nugets.png',
@@ -47,6 +38,39 @@ class RestaurantScreen extends StatelessWidget {
   var selectedIndex = 0.obs;
 
   var btn = Colors.black.obs;
+  var popularList = [];
+  var burgerList = [];
+  var any = <Map<String, dynamic>>[];
+  // checkMenuDetail() {
+  //   popularList.clear();
+  //   burgerList.clear();
+
+  //   for (var product in data["detail"]["products"]) {
+  //     // log(product.toString());
+  //     // if (product["popular"] == true) {
+  //     //   popularList.add(product.toString());
+  //     //   log(popularList.toString());
+  //     // } else if (product["status"] == "Burger") {
+  //     //   burgerList.add(product.toString());
+  //     //   log("----------------------");
+  //     //   log(burgerList.toString());
+  //     // }
+  //     any.add(product);
+  //   }
+  //   log(any.toString());
+  // }
+
+  checkMenuDetail() {
+    var products = data["detail"]["products"];
+
+    if (products is List) {
+      for (var product in products) {
+        any.add(product);
+      }
+    } else {}
+
+    log(any.toString());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +90,8 @@ class RestaurantScreen extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 5),
               child: IconButton(
                 onPressed: () {
-                  Get.to(() => const CartScreen());
+                  // Get.to(() => const CartScreen());
+                  checkMenuDetail();
                 },
                 icon: const Icon(Icons.shopping_bag_outlined),
                 color: Colors.black,
@@ -87,11 +112,11 @@ class RestaurantScreen extends StatelessWidget {
               width: Get.width,
               height: Get.height * 0.1,
               color: primaryColor,
-              child: const Padding(
-                padding: EdgeInsets.all(10),
+              child: Padding(
+                padding: const EdgeInsets.all(10),
                 child: Text(
-                  '20% Off - Dorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et velit interdum, ac aliquet odio mattis. Class aptent taciti sociosqu. libero et velit interdum.',
-                  style: TextStyle(color: Colors.white),
+                  data["detail"]["description"],
+                  style: const TextStyle(color: Colors.white),
                 ),
               ),
             ),
@@ -107,14 +132,14 @@ class RestaurantScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'OPTP',
+                      data["detail"]["name"],
                       style: TextStyle(
                           fontSize: Get.width * 0.05,
                           color: Colors.black,
                           fontWeight: FontWeight.bold),
                     ),
                     Text(
-                      '2.4km away | delivery charges 120 Rs',
+                      '2.4km away | delivery charges ${data["detail"]["dcharges"].toString()} Rs',
                       style: TextStyle(
                           fontSize: Get.width * 0.03,
                           color: Colors.black,
@@ -137,7 +162,7 @@ class RestaurantScreen extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 20),
                           child: Text(
-                            'Delivery time 20 min',
+                            'Delivery time ${data["detail"]["dtime"]} min',
                             style: TextStyle(
                                 fontSize: Get.width * 0.03,
                                 color: Colors.black,
@@ -159,7 +184,7 @@ class RestaurantScreen extends StatelessWidget {
                 child: ListView.builder(
                   physics: const BouncingScrollPhysics(),
                   scrollDirection: Axis.horizontal,
-                  itemCount: menu.length,
+                  itemCount: data["detail"]["menu"].length,
                   itemBuilder: (context, index) {
                     return Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -167,12 +192,11 @@ class RestaurantScreen extends StatelessWidget {
                         () => Center(
                           child: GestureDetector(
                             onTap: () {
-                              log(index.toString());
-                              log('ontap');
                               selectedIndex.value = index;
+                              //log(data["detail"].toString());
                             },
                             child: Text(
-                              menu[index],
+                              data["detail"]["menu"][index]["menu_name"],
                               style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   color: selectedIndex.value == index
@@ -187,6 +211,7 @@ class RestaurantScreen extends StatelessWidget {
                 ),
               ),
             ),
+            // ------------ After Menu row -------------
             Expanded(
                 child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
@@ -234,102 +259,6 @@ class RestaurantScreen extends StatelessWidget {
                       },
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 10, horizontal: 10),
-                    child: Align(
-                      alignment: Alignment.topLeft,
-                      child: Text(
-                        'Top Deals',
-                        style: TextStyle(
-                            fontSize: Get.width * 0.05,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black),
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 10),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Container(
-                          width: Get.width * 0.45,
-                          height: Get.height * 0.2,
-                          decoration: const BoxDecoration(
-                            image: DecorationImage(
-                                image: AssetImage('assets/bouncerdeal.png'),
-                                fit: BoxFit.fill),
-                          ),
-                        ),
-                        Container(
-                          width: Get.width * 0.45,
-                          height: Get.height * 0.2,
-                          decoration: const BoxDecoration(
-                            image: DecorationImage(
-                                image: AssetImage('assets/combo.png'),
-                                fit: BoxFit.fill),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 10, horizontal: 10),
-                    child: Align(
-                      alignment: Alignment.topLeft,
-                      child: Text(
-                        'Fries',
-                        style: TextStyle(
-                            fontSize: Get.width * 0.05,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black),
-                      ),
-                    ),
-                  ),
-                  for (var i = 0; i < fries.length; i++) ...[
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 10, vertical: 10),
-                      child: Container(
-                        width: Get.width,
-                        height: Get.height * 0.15,
-                        decoration: BoxDecoration(
-                            image: DecorationImage(
-                                image: AssetImage(fries[i]), fit: BoxFit.fill)),
-                      ),
-                    ),
-                  ],
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 10, horizontal: 10),
-                    child: Align(
-                      alignment: Alignment.topLeft,
-                      child: Text(
-                        'Burgers',
-                        style: TextStyle(
-                            fontSize: Get.width * 0.05,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black),
-                      ),
-                    ),
-                  ),
-                  //
-                  for (var i = 0; i < burger.length; i++) ...[
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 10, vertical: 10),
-                      child: Container(
-                        width: Get.width,
-                        height: Get.height * 0.15,
-                        decoration: BoxDecoration(
-                            image: DecorationImage(
-                                image: AssetImage(burger[i]),
-                                fit: BoxFit.fill)),
-                      ),
-                    ),
-                  ],
                 ],
               ),
             )),

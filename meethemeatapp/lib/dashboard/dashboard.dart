@@ -4,6 +4,7 @@ import 'package:circular_bottom_navigation/circular_bottom_navigation.dart';
 import 'package:circular_bottom_navigation/tab_item.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:meethemeat/home/home_controller.dart';
 
 import 'package:meethemeat/home/home_screen.dart';
 import 'package:meethemeat/login/login_controller.dart';
@@ -54,10 +55,14 @@ class _DashboardState extends State<Dashboard> {
 
   late CircularBottomNavigationController _navigationController;
   final LoginController _loginController = Get.put(LoginController());
+  final HomeController homeController = Get.put(HomeController());
+
   @override
   void initState() {
     super.initState();
     _loginController.userDetail();
+    homeController.getAllCategory(context);
+    homeController.getAllRestaurant(context);
 
     _navigationController = CircularBottomNavigationController(selectedPos);
   }

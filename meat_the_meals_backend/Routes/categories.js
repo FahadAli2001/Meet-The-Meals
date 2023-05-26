@@ -3,8 +3,8 @@ const express = require('express');
 const router = express.Router();
 const Category = require('../Models/categories');
 
-router.get('/',(req,res,next)=>{
-    console.log("dataaaa");
+router.get('/all',(req,res,next)=>{
+   
     Category.find()
         .then(cate =>{
             res.status(200).json({
@@ -18,6 +18,26 @@ router.get('/',(req,res,next)=>{
             })
         })
    
+});
+
+router.post('/add',(req,res,next)=>{
+    const category = new Category({
+        _id:new mongoose.Types.ObjectId,
+        image:req.body.image,
+        name:req.body.name
+    });
+
+    category.save()
+    .then(cate =>{
+        res.status(200).json({
+            "category":cate
+        })
+    })
+    .catch(err=>{
+        res.status(400).json({
+            "error":err
+        })
+    });
 });
 
 
