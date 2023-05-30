@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:meethemeat/utils/utils.dart';
 
-import '../cart/cart_screen.dart';
 import 'resturant_detail_screen.dart';
 
 class RestaurantScreen extends StatelessWidget {
@@ -38,9 +37,7 @@ class RestaurantScreen extends StatelessWidget {
   var selectedIndex = 0.obs;
 
   var btn = Colors.black.obs;
-  var popularList = [];
-  var burgerList = [];
-  var any = <Map<String, dynamic>>[];
+
   // checkMenuDetail() {
   //   popularList.clear();
   //   burgerList.clear();
@@ -60,16 +57,38 @@ class RestaurantScreen extends StatelessWidget {
   //   log(any.toString());
   // }
 
-  checkMenuDetail() {
+  void checkMenuDetail() {
     var products = data["detail"]["products"];
 
-    if (products is List) {
-      for (var product in products) {
-        any.add(product);
-      }
-    } else {}
+    List<Map<String, dynamic>> apiData =
+        List<Map<String, dynamic>>.from(products);
+    //log(apiData.toString());
+    groupProductsByStatus(apiData);
+  }
 
-    log(any.toString());
+  void groupProductsByStatus(List<Map<String, dynamic>> apiData) {
+    Map<String, List<Map<String, dynamic>>> groupedProducts = {};
+
+    // Group products based on status
+    for (var product in apiData) {
+      String status = product['status'];
+
+      if (!groupedProducts.containsKey(status)) {
+        groupedProducts[status] = [];
+      }
+
+      groupedProducts[status]!.add(product);
+    }
+
+    for (var status in groupedProducts.keys) {
+      log('Products with status $status:');
+      for (var product in groupedProducts[status]!) {
+        log('Name: ${product['pname']}');
+        log('Image: ${product['pimage']}');
+        log('Price: ${product['pprice']}');
+        log('--------------');
+      }
+    }
   }
 
   @override
