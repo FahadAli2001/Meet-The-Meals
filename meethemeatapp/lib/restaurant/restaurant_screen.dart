@@ -8,10 +8,16 @@ import 'package:meethemeat/utils/utils.dart';
 
 import 'resturant_detail_screen.dart';
 
-class RestaurantScreen extends StatelessWidget {
+class RestaurantScreen extends StatefulWidget {
   RestaurantScreen({super.key});
 
+  @override
+  State<RestaurantScreen> createState() => _RestaurantScreenState();
+}
+
+class _RestaurantScreenState extends State<RestaurantScreen> {
   final RxBool isSelected = false.obs;
+
   final data = Get.arguments;
 
   final List popular = [
@@ -38,57 +44,24 @@ class RestaurantScreen extends StatelessWidget {
 
   var btn = Colors.black.obs;
 
-  // checkMenuDetail() {
-  //   popularList.clear();
-  //   burgerList.clear();
+  List filterData = [];
 
-  //   for (var product in data["detail"]["products"]) {
-  //     // log(product.toString());
-  //     // if (product["popular"] == true) {
-  //     //   popularList.add(product.toString());
-  //     //   log(popularList.toString());
-  //     // } else if (product["status"] == "Burger") {
-  //     //   burgerList.add(product.toString());
-  //     //   log("----------------------");
-  //     //   log(burgerList.toString());
-  //     // }
-  //     any.add(product);
-  //   }
-  //   log(any.toString());
-  // }
+  void getFilterProductData(int menuIndex) {
+    data['restaurant']['products'].forEach((element) {
+      if (data['restaurant']['menu'][menuIndex]['menu_name'] ==
+          element['status']) {
+        filterData.add(element);
 
-  void checkMenuDetail() {
-    var products = data["detail"]["products"];
-
-    List<Map<String, dynamic>> apiData =
-        List<Map<String, dynamic>>.from(products);
-    //log(apiData.toString());
-    groupProductsByStatus(apiData);
+        setState(() {});
+      } else {}
+    });
   }
 
-  void groupProductsByStatus(List<Map<String, dynamic>> apiData) {
-    Map<String, List<Map<String, dynamic>>> groupedProducts = {};
-
-    // Group products based on status
-    for (var product in apiData) {
-      String status = product['status'];
-
-      if (!groupedProducts.containsKey(status)) {
-        groupedProducts[status] = [];
-      }
-
-      groupedProducts[status]!.add(product);
-    }
-
-    for (var status in groupedProducts.keys) {
-      log('Products with status $status:');
-      for (var product in groupedProducts[status]!) {
-        log('Name: ${product['pname']}');
-        log('Image: ${product['pimage']}');
-        log('Price: ${product['pprice']}');
-        log('--------------');
-      }
-    }
+  @override
+  void initState() {
+    // TODO: implement initState
+    getFilterProductData(0);
+    super.initState();
   }
 
   @override
@@ -110,7 +83,6 @@ class RestaurantScreen extends StatelessWidget {
               child: IconButton(
                 onPressed: () {
                   // Get.to(() => const CartScreen());
-                  checkMenuDetail();
                 },
                 icon: const Icon(Icons.shopping_bag_outlined),
                 color: Colors.black,
@@ -134,7 +106,7 @@ class RestaurantScreen extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.all(10),
                 child: Text(
-                  data["detail"]["description"],
+                  data["restaurant"]["description"],
                   style: const TextStyle(color: Colors.white),
                 ),
               ),
@@ -151,14 +123,14 @@ class RestaurantScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      data["detail"]["name"],
+                      data["restaurant"]["name"],
                       style: TextStyle(
                           fontSize: Get.width * 0.05,
                           color: Colors.black,
                           fontWeight: FontWeight.bold),
                     ),
                     Text(
-                      '2.4km away | delivery charges ${data["detail"]["dcharges"].toString()} Rs',
+                      '2.4km away | delivery charges ${data["restaurant"]["dcharges"].toString()} Rs',
                       style: TextStyle(
                           fontSize: Get.width * 0.03,
                           color: Colors.black,
@@ -181,7 +153,7 @@ class RestaurantScreen extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 20),
                           child: Text(
-                            'Delivery time ${data["detail"]["dtime"]} min',
+                            'Delivery time ${data["restaurant"]["dtime"]} min',
                             style: TextStyle(
                                 fontSize: Get.width * 0.03,
                                 color: Colors.black,
@@ -194,7 +166,7 @@ class RestaurantScreen extends StatelessWidget {
                 ),
               ),
             ),
-            //
+            //------------------------------
             SizedBox(
               width: Get.width,
               height: Get.height * 0.08,
@@ -203,25 +175,24 @@ class RestaurantScreen extends StatelessWidget {
                 child: ListView.builder(
                   physics: const BouncingScrollPhysics(),
                   scrollDirection: Axis.horizontal,
-                  itemCount: data["detail"]["menu"].length,
+                  itemCount: data?["restaurant"]?["menu"]?.length ?? 0,
                   itemBuilder: (context, index) {
                     return Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 10),
-                      child: Obx(
-                        () => Center(
-                          child: GestureDetector(
-                            onTap: () {
-                              selectedIndex.value = index;
-                              //log(data["detail"].toString());
-                            },
-                            child: Text(
-                              data["detail"]["menu"][index]["menu_name"],
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: selectedIndex.value == index
-                                      ? primaryColor
-                                      : Colors.black),
-                            ),
+                      child: Center(
+                        child: GestureDetector(
+                          onTap: () {
+                            selectedIndex.value = index;
+                            filterData.clear();
+                            getFilterProductData(selectedIndex.value);
+                          },
+                          child: Text(
+                            data['restaurant']['menu'][index]['menu_name'],
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: selectedIndex.value == index
+                                    ? primaryColor
+                                    : Colors.black),
                           ),
                         ),
                       ),
@@ -232,57 +203,52 @@ class RestaurantScreen extends StatelessWidget {
             ),
             // ------------ After Menu row -------------
             Expanded(
-                child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
-              child: ListView(
-                physics: const BouncingScrollPhysics(),
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 20),
-                    child: Align(
-                      alignment: Alignment.topLeft,
-                      child: Text(
-                        'Popular',
-                        style: TextStyle(
-                            fontSize: Get.width * 0.05,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black),
-                      ),
-                    ),
-                  ),
-                  //
-                  SizedBox(
-                    width: Get.width,
-                    height: Get.height * 0.46,
-                    child: GridView.builder(
-                      physics: const NeverScrollableScrollPhysics(),
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2,
-                              crossAxisSpacing: 10,
-                              mainAxisSpacing: 10),
-                      itemCount: popular.length,
-                      itemBuilder: (context, index) {
-                        return GestureDetector(
-                          onTap: () {
-                            Get.to(() => ResturantDetailScreen());
-                          },
-                          child: Container(
-                            decoration: BoxDecoration(
-                              image: DecorationImage(
-                                  image: AssetImage(popular[index]),
-                                  fit: BoxFit.fill),
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+                child: ListView(
+                  physics: const BouncingScrollPhysics(),
+                  children: [
+                    SizedBox(
+                      width: Get.width,
+                      height: Get.height * 0.46,
+                      child: GridView.builder(
+                        physics: const NeverScrollableScrollPhysics(),
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          crossAxisSpacing: 10,
+                          mainAxisSpacing: 10,
+                        ),
+                        itemCount: filterData.length,
+                        itemBuilder: (context, index) {
+                          return GestureDetector(
+                            onTap: () {
+                              // log(data['restaurant']['products'][index]
+                              //         ['pimage']
+                              //     .toString());
+                              Get.to(() => ResturantDetailScreen(), arguments: {
+                                'restaurant': data['restaurant'],
+                                'restaurant_detail': filterData[index]
+                              });
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                image: DecorationImage(
+                                  image: NetworkImage(
+                                      filterData[index]['pimage'].toString()),
+                                  fit: BoxFit.fill,
+                                ),
+                              ),
                             ),
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-                ],
+                          );
+                        },
+                      ),
+                    )
+                  ],
+                ),
               ),
-            )),
-
-            //
+            ),
           ],
         ),
       ),

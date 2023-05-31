@@ -253,7 +253,7 @@ class HomeScreen extends StatelessWidget {
                         child: GestureDetector(
                           onTap: () {
                               Get.to(() => RestaurantScreen(),arguments: {
-                                "detail": homeController.allRestaurant["restaurant"]
+                                "restaurant": homeController.allRestaurant["restaurant"]
                                             [index]
                               });
                           },

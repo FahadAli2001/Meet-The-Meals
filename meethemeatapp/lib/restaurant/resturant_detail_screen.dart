@@ -14,6 +14,8 @@ class ResturantDetailScreen extends StatelessWidget {
     value.value = val;
   }
 
+  var data = Get.arguments;
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -89,10 +91,10 @@ class ResturantDetailScreen extends StatelessWidget {
             Container(
               width: Get.width,
               height: Get.height * 0.2,
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
                   image: DecorationImage(
-                      image: AssetImage(
-                        'assets/shotgun.png',
+                      image: NetworkImage(
+                        data['restaurant_detail']['pimage'].toString(),
                       ),
                       fit: BoxFit.fill)),
             ),
@@ -111,14 +113,14 @@ class ResturantDetailScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          'Shot Gun Bag',
+                          data['restaurant_detail']['pname'],
                           style: TextStyle(
                               fontSize: Get.width * 0.06,
                               color: Colors.white,
                               fontWeight: FontWeight.bold),
                         ),
                         Text(
-                          '\$xx',
+                          "\$ ${data['restaurant_detail']['pprice']}",
                           style: TextStyle(
                               fontSize: Get.width * 0.05,
                               color: Colors.white,
@@ -127,9 +129,9 @@ class ResturantDetailScreen extends StatelessWidget {
                       ],
                     ),
                     //
-                    const Text(
-                      'Delivery time 20 min',
-                      style: TextStyle(
+                    Text(
+                      'Delivery time ${data["restaurant"]["dtime"]} min',
+                      style: const TextStyle(
                           color: Colors.white, fontWeight: FontWeight.bold),
                     )
                   ],
