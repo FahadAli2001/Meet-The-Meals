@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:meethemeat/cart/cart_screen.dart';
+import 'package:meethemeat/restaurant/restaurant_screen_controller.dart';
 import 'package:meethemeat/utils/utils.dart';
 
 // ignore: must_be_immutable
@@ -13,6 +14,9 @@ class ResturantDetailScreen extends StatelessWidget {
   handle(val) {
     value.value = val;
   }
+
+  final RestaurantScreenController restaurantScreenController =
+      Get.put(RestaurantScreenController());
 
   var data = Get.arguments;
 
@@ -29,23 +33,36 @@ class ResturantDetailScreen extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 10),
               child: Row(
                 children: [
-                  Icon(
-                    Icons.remove_circle,
-                    color: primaryColor,
-                    size: 30,
-                  ),
-                  const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 10),
-                    child: Text(
-                      '1',
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
+                  GestureDetector(
+                    onTap: () {
+                      restaurantScreenController.decQuantity(context);
+                    },
+                    child: Icon(
+                      Icons.remove_circle,
+                      color: primaryColor,
+                      size: 30,
                     ),
                   ),
-                  Icon(
-                    Icons.add_circle,
-                    color: primaryColor,
-                    size: 30,
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: Obx(
+                      () => Text(
+                        restaurantScreenController.itemQuanitity.value
+                            .toString(),
+                        style: const TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 25),
+                      ),
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      restaurantScreenController.incQuantity();
+                    },
+                    child: Icon(
+                      Icons.add_circle,
+                      color: primaryColor,
+                      size: 30,
+                    ),
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 17),
@@ -56,7 +73,17 @@ class ResturantDetailScreen extends StatelessWidget {
                           color: primaryColor,
                           child: const Text("Add to cart"),
                           onPressed: () {
-                            Get.to(() => const CartScreen());
+                            restaurantScreenController.calculateTotal(
+                                data['restaurant']['dcharges'],
+                                data['restaurant_detail']['pprice']);
+                            //
+                            restaurantScreenController.calculateSubtotal(
+                                data['restaurant_detail']['pprice']);
+                            //
+                            Get.to(() => CartScreen(), arguments: {
+                              "restaurant_detail": data['restaurant_detail'],
+                              "restaurant": data['restaurant']
+                            });
                           }),
                     ),
                   ),
@@ -112,12 +139,14 @@ class ResturantDetailScreen extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          data['restaurant_detail']['pname'],
-                          style: TextStyle(
-                              fontSize: Get.width * 0.06,
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold),
+                        Expanded(
+                          child: Text(
+                            data['restaurant_detail']['pname'],
+                            style: TextStyle(
+                                fontSize: Get.width * 0.06,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold),
+                          ),
                         ),
                         Text(
                           "\$ ${data['restaurant_detail']['pprice']}",

@@ -9,7 +9,7 @@ import 'package:meethemeat/utils/utils.dart';
 import 'resturant_detail_screen.dart';
 
 class RestaurantScreen extends StatefulWidget {
-  RestaurantScreen({super.key});
+  const RestaurantScreen({super.key});
 
   @override
   State<RestaurantScreen> createState() => _RestaurantScreenState();
@@ -19,26 +19,6 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
   final RxBool isSelected = false.obs;
 
   final data = Get.arguments;
-
-  final List popular = [
-    'assets/nugets.png',
-    'assets/fries.png',
-    'assets/shotgun.png',
-    'assets/fries.png',
-  ];
-
-  final List fries = [
-    'assets/f1.png',
-    'assets/f2.png',
-    'assets/f3.png',
-  ];
-
-  final List burger = [
-    'assets/b1.png',
-    'assets/b2.png',
-    'assets/b3.png',
-    'assets/b4.png',
-  ];
 
   var selectedIndex = 0.obs;
 
@@ -59,7 +39,6 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     getFilterProductData(0);
     super.initState();
   }
@@ -224,9 +203,6 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                         itemBuilder: (context, index) {
                           return GestureDetector(
                             onTap: () {
-                              // log(data['restaurant']['products'][index]
-                              //         ['pimage']
-                              //     .toString());
                               Get.to(() => ResturantDetailScreen(), arguments: {
                                 'restaurant': data['restaurant'],
                                 'restaurant_detail': filterData[index]
@@ -239,6 +215,31 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                                       filterData[index]['pimage'].toString()),
                                   fit: BoxFit.fill,
                                 ),
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 5, vertical: 5),
+                                    child: Text(
+                                      filterData[index]['pname'].toString(),
+                                      style: const TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 5, vertical: 5),
+                                    child: Text(
+                                      filterData[index]['pprice'].toString(),
+                                      style: const TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                           );

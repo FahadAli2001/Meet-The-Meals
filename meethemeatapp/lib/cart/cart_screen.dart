@@ -1,13 +1,20 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:meethemeat/restaurant/restaurant_screen_controller.dart';
 
 import 'package:meethemeat/utils/utils.dart';
 
 import '../checkout/checkout_screen.dart';
 
+// ignore: must_be_immutable
 class CartScreen extends StatelessWidget {
-  const CartScreen({super.key});
+  CartScreen({super.key});
+
+  var data = Get.arguments;
+
+  RestaurantScreenController restaurantScreenController =
+      Get.put(RestaurantScreenController());
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +44,7 @@ class CartScreen extends StatelessWidget {
                               fontSize: Get.width * 0.04),
                         ),
                         Text(
-                          '\$xxx',
+                          '\$ ${restaurantScreenController.totalValue.value}',
                           style: TextStyle(
                               color: Colors.black,
                               fontWeight: FontWeight.bold,
@@ -185,7 +192,7 @@ class CartScreen extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
               child: Align(
                 alignment: Alignment.topLeft,
                 child: Text(
@@ -198,15 +205,15 @@ class CartScreen extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
               child: Align(
                 alignment: Alignment.topLeft,
                 child: Text(
-                  'Shot gun bag',
+                  data['restaurant_detail']['pname'].toString(),
                   style: TextStyle(
                       color: Colors.grey,
                       fontWeight: FontWeight.bold,
-                      fontSize: Get.width * 0.04),
+                      fontSize: Get.width * 0.05),
                 ),
               ),
             ),
@@ -223,7 +230,7 @@ class CartScreen extends StatelessWidget {
                         fontSize: Get.width * 0.04),
                   ),
                   Text(
-                    '\$xxx',
+                    '\$ ${restaurantScreenController.subTotal.value}',
                     style: TextStyle(
                         color: Colors.black,
                         fontWeight: FontWeight.bold,
@@ -246,7 +253,7 @@ class CartScreen extends StatelessWidget {
                         fontSize: Get.width * 0.04),
                   ),
                   Text(
-                    '\$x',
+                    '\$ ${data['restaurant']['dcharges'].toString()}',
                     style: TextStyle(
                         color: Colors.grey,
                         fontWeight: FontWeight.bold,
@@ -268,7 +275,7 @@ class CartScreen extends StatelessWidget {
                         fontSize: Get.width * 0.04),
                   ),
                   Text(
-                    '\$x',
+                    '\$ ${restaurantScreenController.platformFee.toString()}',
                     style: TextStyle(
                         color: Colors.grey,
                         fontWeight: FontWeight.bold,

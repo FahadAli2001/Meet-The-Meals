@@ -32,7 +32,7 @@ class WinterDealScreen extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 5),
               child: IconButton(
                 onPressed: () {
-                  Get.to(() => const CartScreen());
+                  Get.to(() => CartScreen());
                 },
                 icon: const Icon(Icons.shopping_bag_outlined),
                 color: Colors.black,

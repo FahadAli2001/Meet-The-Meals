@@ -15,7 +15,7 @@ class HomeScreen extends StatelessWidget {
   https://www.linkpicture.com/q/kfc.png
   https://www.linkpicture.com/q/mac_1.png
   https://www.linkpicture.com/q/subway.png
-*/ 
+*/
   List categorey = [
     'assets/burger.png',
     'assets/donat.png',
@@ -57,7 +57,7 @@ class HomeScreen extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 5),
             child: IconButton(
               onPressed: () {
-                Get.to(() => const CartScreen());
+                Get.to(() => CartScreen());
                 // homeController.getAllCategory(context);
               },
               icon: const Icon(Icons.shopping_bag_outlined),
@@ -252,10 +252,10 @@ class HomeScreen extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(horizontal: 10),
                         child: GestureDetector(
                           onTap: () {
-                              Get.to(() => RestaurantScreen(),arguments: {
-                                "restaurant": homeController.allRestaurant["restaurant"]
-                                            [index]
-                              });
+                            Get.to(() => const RestaurantScreen(), arguments: {
+                              "restaurant": homeController
+                                  .allRestaurant["restaurant"][index]
+                            });
                           },
                           child: Container(
                             width: Get.width * 0.88,
@@ -264,9 +264,9 @@ class HomeScreen extends StatelessWidget {
                                 //color: Colors.blueAccent,
                                 image: DecorationImage(
                                     fit: BoxFit.fill,
-                                    image: NetworkImage(
-                                        homeController.allRestaurant["restaurant"]
-                                            [index]["image"]))),
+                                    image: NetworkImage(homeController
+                                            .allRestaurant["restaurant"][index]
+                                        ["image"]))),
                           ),
                         ),
                       );
