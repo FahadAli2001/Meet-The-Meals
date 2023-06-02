@@ -167,6 +167,7 @@ class HomeScreen extends StatelessWidget {
                           Get.to(() => CategoryRestaurantScreen(), arguments: {
                             'rest_list': homeController.filterData,
                           });
+                          
                         },
                         child: Column(
                           children: [

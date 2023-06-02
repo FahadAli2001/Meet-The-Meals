@@ -29,6 +29,7 @@ db.on('disconnected', () => {
 const UserRoute = require('./Routes/users');
 const CategoryRoute = require('./Routes/categories');
 const RestaurantRoute = require('./Routes/restaurant');
+const OrderRoute = require('./Routes/orders')
 
 app.use(bodyParser.urlencoded({extended:false}));
 app.use(bodyParser.json());
@@ -37,6 +38,7 @@ app.use(bodyParser.json());
 app.use('/user',UserRoute);
 app.use('/category',CategoryRoute);
 app.use('/restaurant',RestaurantRoute);
+app.use('/order',OrderRoute);
 
 
 app.use((req,res)=>{

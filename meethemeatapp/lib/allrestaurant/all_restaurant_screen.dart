@@ -40,6 +40,7 @@ class _AllRestaurantScreenState extends State<AllRestaurantScreen> {
   @override
   void initState() {
     filterCategory(0);
+
     super.initState();
   }
 
@@ -109,6 +110,7 @@ class _AllRestaurantScreenState extends State<AllRestaurantScreen> {
                       onTap: () {
                         selectedButtonIndex.value = index;
                         filterData.clear();
+
                         filterCategory(index);
                         setState(() {});
                       },
@@ -131,33 +133,42 @@ class _AllRestaurantScreenState extends State<AllRestaurantScreen> {
                 },
               )),
         ),
-        Expanded(
-            child: ListView.builder(
-          itemCount: filterData.length,
-          itemBuilder: (context, index) {
-            return Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-              child: GestureDetector(
-                onTap: () {
-                  Get.to(() => const RestaurantScreen(), arguments: {
-                    "restaurant": homeController.allRestaurant["restaurant"]
-                        [index]
-                  });
+        (filterData.length > 0)
+            ? Expanded(
+                child: ListView.builder(
+                itemCount: filterData.length,
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 15, vertical: 10),
+                    child: GestureDetector(
+                      onTap: () {
+                        Get.to(() => const RestaurantScreen(), arguments: {
+                          "restaurant":
+                              homeController.allRestaurant["restaurant"][index]
+                        });
+                      },
+                      child: Container(
+                        //color: Colors.amber,
+                        width: Get.width,
+                        height: Get.height * 0.2,
+                        decoration: BoxDecoration(
+                            image: DecorationImage(
+                                image: NetworkImage(
+                                    filterData[index]['image'].toString()),
+                                fit: BoxFit.fill)),
+                      ),
+                    ),
+                  );
                 },
-                child: Container(
-                  //color: Colors.amber,
-                  width: Get.width,
-                  height: Get.height * 0.2,
-                  decoration: BoxDecoration(
-                      image: DecorationImage(
-                          image: NetworkImage(
-                              filterData[index]['image'].toString()),
-                          fit: BoxFit.fill)),
+              ))
+            : const Center(
+                child: Text(
+                  'No Restaurants Yet',
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold, color: Colors.grey),
                 ),
-              ),
-            );
-          },
-        ))
+              )
       ]),
     ));
   }

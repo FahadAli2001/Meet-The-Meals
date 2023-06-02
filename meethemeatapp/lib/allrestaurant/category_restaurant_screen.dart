@@ -32,7 +32,7 @@ class CategoryRestaurantScreen extends StatelessWidget {
                 color: Colors.black,
               ),
             ),
-            body: (data['rest_list'] != null)
+            body: (data['rest_list'].length > 0)
                 ? Padding(
                     padding: const EdgeInsets.symmetric(
                         vertical: 10, horizontal: 10),
@@ -64,6 +64,14 @@ class CategoryRestaurantScreen extends StatelessWidget {
                       },
                     ),
                   )
-                : const Text('No Restaurants Yet')));
+                : const Center(
+                    child: Text(
+                      'No Restaurants Yet',
+                      style: TextStyle(
+                        color: Colors.grey,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  )));
   }
 }

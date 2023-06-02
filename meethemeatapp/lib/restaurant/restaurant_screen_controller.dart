@@ -7,6 +7,7 @@ class RestaurantScreenController extends GetxController {
   int platformFee = 5;
   var subTotal = 0.obs;
 
+  
   void incQuantity() {
     itemQuanitity.value++;
   }
