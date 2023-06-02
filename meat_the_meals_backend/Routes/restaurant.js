@@ -27,6 +27,7 @@ router.post('/add', (req, res, next) => {
         description:req.body.description,
         dcharges:req.body.dcharges,
         dtime:req.body.dtime,
+        category:req.body.category,
         menu:req.body.menu.map(menu=>({
             menu_name:menu.menu_name
         })),

@@ -2,11 +2,17 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:meethemeat/delivery/delivery_screen.dart';
+import 'package:meethemeat/restaurant/restaurant_screen_controller.dart';
 
 import '../utils/utils.dart';
 
 class CheckOutScreen extends StatelessWidget {
-  const CheckOutScreen({super.key});
+  CheckOutScreen({super.key});
+
+  final RestaurantScreenController restaurantScreenController =
+      Get.put(RestaurantScreenController());
+
+  final data = Get.arguments;
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +42,7 @@ class CheckOutScreen extends StatelessWidget {
                               fontSize: Get.width * 0.04),
                         ),
                         Text(
-                          '\$xxx',
+                          '\$ ${restaurantScreenController.totalValue.value.toString()}',
                           style: TextStyle(
                               color: Colors.black,
                               fontWeight: FontWeight.bold,
@@ -225,16 +231,16 @@ class CheckOutScreen extends StatelessWidget {
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: const [
-                          Text(
+                        children: [
+                          const Text(
                             'COD',
                             style: TextStyle(
                                 color: Colors.grey,
                                 fontWeight: FontWeight.bold),
                           ),
                           Text(
-                            '\$XXX',
-                            style: TextStyle(
+                            '\$ ${restaurantScreenController.totalValue.value.toString()}',
+                            style: const TextStyle(
                                 color: Colors.black,
                                 fontWeight: FontWeight.bold),
                           ),
@@ -339,7 +345,7 @@ class CheckOutScreen extends StatelessWidget {
                                 fontSize: Get.width * 0.04),
                           ),
                           Text(
-                            '\$xxx',
+                            '\$ ${restaurantScreenController.subTotal.value}',
                             style: TextStyle(
                                 color: Colors.black,
                                 fontWeight: FontWeight.bold,
@@ -363,7 +369,7 @@ class CheckOutScreen extends StatelessWidget {
                                 fontSize: Get.width * 0.04),
                           ),
                           Text(
-                            '\$x',
+                            '\$ ${data['restaurant']['dcharges']}',
                             style: TextStyle(
                                 color: Colors.grey,
                                 fontWeight: FontWeight.bold,
@@ -386,7 +392,7 @@ class CheckOutScreen extends StatelessWidget {
                                 fontSize: Get.width * 0.04),
                           ),
                           Text(
-                            '\$x',
+                            '\$ ${restaurantScreenController.platformFee}',
                             style: TextStyle(
                                 color: Colors.grey,
                                 fontWeight: FontWeight.bold,

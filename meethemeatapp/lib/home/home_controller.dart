@@ -43,4 +43,13 @@ class HomeController extends GetxController {
     }
     return allRestaurant;
   }
+
+  List filterData = [];
+  void filterCategory(int cateIndex) {
+    allRestaurant["restaurant"].forEach((menu) {
+      if (menu['category'] == allCategory["categories"][cateIndex]['name']) {
+        filterData.add(menu);
+      }
+    });
+  }
 }

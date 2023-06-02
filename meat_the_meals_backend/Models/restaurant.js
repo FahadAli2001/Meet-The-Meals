@@ -7,6 +7,7 @@ const RestaurantSchema = moongose.Schema({
     description:String,
     dcharges:Number,
     dtime:String,
+    category:String,
     menu:[{
         menu_name:String
     }],

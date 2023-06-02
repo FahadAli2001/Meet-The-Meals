@@ -60,7 +60,8 @@ class CartScreen extends StatelessWidget {
                         color: primaryColor,
                         child: const Text("Confirm payment & address"),
                         onPressed: () {
-                          Get.to(() => const CheckOutScreen());
+                          Get.to(() => CheckOutScreen(),
+                              arguments: {'restaurant': data['restaurant']});
                         }),
                   ),
                 ],

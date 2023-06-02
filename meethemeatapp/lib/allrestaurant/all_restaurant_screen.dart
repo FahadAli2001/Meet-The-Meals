@@ -2,33 +2,47 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:meethemeat/home/home_controller.dart';
 import 'package:meethemeat/utils/utils.dart';
 
+import '../restaurant/restaurant_screen.dart';
+
 // ignore: must_be_immutable
-class AllRestaurantScreen extends StatelessWidget {
-  AllRestaurantScreen({super.key});
+class AllRestaurantScreen extends StatefulWidget {
+  const AllRestaurantScreen({super.key});
 
-  List options = [
-    'Burger',
-    'Pizza',
-    'Steak',
-    'Desert',
-    'Chinese',
-    'Sandwiches',
-    'Bbq',
-    'Deserts',
-    'Extras'
-  ];
+  @override
+  State<AllRestaurantScreen> createState() => _AllRestaurantScreenState();
+}
 
-  List resturants = [
-    'assets/kfc.png',
-    'assets/mac.png',
-    'assets/optp.png',
-    'assets/subway.png',
-  ];
-
+class _AllRestaurantScreenState extends State<AllRestaurantScreen> {
   var btn = Colors.black.obs;
+
   final RxInt selectedButtonIndex = RxInt(0);
+
+  HomeController homeController = Get.put(HomeController());
+
+  final data = Get.arguments;
+
+  List filterData = [];
+
+  void filterCategory(int cateIndex) {
+    for (var element in data['restaurant']) {
+      if (element['category'] ==
+          homeController.allCategory["categories"][cateIndex]['name']) {
+        filterData.add(element);
+
+        setState(() {});
+      } else {}
+    }
+  }
+
+  @override
+  void initState() {
+    filterCategory(0);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -59,7 +73,7 @@ class AllRestaurantScreen extends StatelessWidget {
           )
         ],
       ),
-      body: ListView(physics: const BouncingScrollPhysics(), children: [
+      body: Column(children: [
         Container(
           width: Get.width,
           height: Get.height * 0.1,
@@ -87,26 +101,26 @@ class AllRestaurantScreen extends StatelessWidget {
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
                 physics: const BouncingScrollPhysics(),
-                itemCount: options.length,
+                itemCount: homeController.allCategory['categories'].length,
                 itemBuilder: (context, index) {
                   return Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10),
                     child: GestureDetector(
                       onTap: () {
-                        // update the selected button index
                         selectedButtonIndex.value = index;
-                        log(selectedButtonIndex.value.toString());
+                        filterData.clear();
+                        filterCategory(index);
+                        setState(() {});
                       },
                       child: Center(
                         child: Obx(
                           () => Text(
-                            options[index],
+                            homeController.allCategory['categories'][index]
+                                ['name'],
                             style: TextStyle(
                               color: index == selectedButtonIndex.value
                                   ? Colors.orange
                                   : Colors.black,
-                              // if the index matches the selected button index, show the button in orange,
-                              // otherwise show it in black
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -117,19 +131,33 @@ class AllRestaurantScreen extends StatelessWidget {
                 },
               )),
         ),
-        for (var i = 0; i < resturants.length; i++) ...[
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-            child: Container(
-              //color: Colors.amber,
-              width: Get.width,
-              height: Get.height * 0.2,
-              decoration: BoxDecoration(
-                  image: DecorationImage(
-                      image: AssetImage(resturants[i]), fit: BoxFit.fill)),
-            ),
-          ),
-        ]
+        Expanded(
+            child: ListView.builder(
+          itemCount: filterData.length,
+          itemBuilder: (context, index) {
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+              child: GestureDetector(
+                onTap: () {
+                  Get.to(() => const RestaurantScreen(), arguments: {
+                    "restaurant": homeController.allRestaurant["restaurant"]
+                        [index]
+                  });
+                },
+                child: Container(
+                  //color: Colors.amber,
+                  width: Get.width,
+                  height: Get.height * 0.2,
+                  decoration: BoxDecoration(
+                      image: DecorationImage(
+                          image: NetworkImage(
+                              filterData[index]['image'].toString()),
+                          fit: BoxFit.fill)),
+                ),
+              ),
+            );
+          },
+        ))
       ]),
     ));
   }

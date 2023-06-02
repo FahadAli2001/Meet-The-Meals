@@ -4,7 +4,7 @@ import 'package:meethemeat/customs_widget/custom_snackbar.dart';
 class RestaurantScreenController extends GetxController {
   var itemQuanitity = 1.obs;
   var totalValue = 0.obs;
-  int platformFee = 4;
+  int platformFee = 5;
   var subTotal = 0.obs;
 
   void incQuantity() {
