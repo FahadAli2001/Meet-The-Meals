@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:meethemeat/delivery/delivery_screen.dart';
 import 'package:meethemeat/restaurant/restaurant_screen_controller.dart';
 
 import '../utils/utils.dart';

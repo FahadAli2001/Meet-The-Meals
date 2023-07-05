@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:meethemeat/home/home_controller.dart';
@@ -133,7 +131,7 @@ class _AllRestaurantScreenState extends State<AllRestaurantScreen> {
                 },
               )),
         ),
-        (filterData.length > 0)
+        (filterData.isNotEmpty)
             ? Expanded(
                 child: ListView.builder(
                 itemCount: filterData.length,
