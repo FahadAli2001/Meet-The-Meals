@@ -10,10 +10,15 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../restaurant/restaurant_screen_controller.dart';
 
 class CheckOutScreenController extends GetxController {
+  //
   LoginController loginController = Get.put(LoginController());
+  //
   RestaurantScreenController restaurantScreenController =
       Get.put(RestaurantScreenController());
 
+  //
+  List orders = [];
+  //order api
   Future placeOrder(context, String restaurantName, String orderName) async {
     SharedPreferences sp = await SharedPreferences.getInstance();
     String userId = sp.getString('userId')!;

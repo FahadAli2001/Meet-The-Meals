@@ -1,7 +1,9 @@
+import 'dart:developer';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:meethemeat/cart/cart_screen.dart';
+import 'package:meethemeat/checkout/checkout_screen_controller.dart';
 import 'package:meethemeat/restaurant/restaurant_screen_controller.dart';
 import 'package:meethemeat/utils/utils.dart';
 
@@ -18,6 +20,8 @@ class ResturantDetailScreen extends StatelessWidget {
   final RestaurantScreenController restaurantScreenController =
       Get.put(RestaurantScreenController());
 
+  CheckOutScreenController checkOutScreenController =
+      Get.put(CheckOutScreenController());
   var data = Get.arguments;
 
   @override
@@ -80,10 +84,22 @@ class ResturantDetailScreen extends StatelessWidget {
                             restaurantScreenController.calculateSubtotal(
                                 data['restaurant_detail']['pprice']);
                             //
-                            Get.to(() => CartScreen(), arguments: {
-                              "restaurant_detail": data['restaurant_detail'],
-                              "restaurant": data['restaurant']
-                            });
+                            var order = {
+                              "res_name": data['restaurant']['name'],
+                              "item_name": data['restaurant_detail']['pname'],
+                              "price": data['restaurant_detail']['pprice'],
+                              "qnty":
+                                  restaurantScreenController.itemQuanitity.value
+                            };
+
+                            checkOutScreenController.orders.add(order);
+
+                            log((checkOutScreenController.orders
+                                .toString()));
+                            // Get.to(() => CartScreen(), arguments: {
+                            //   "restaurant_detail": data['restaurant_detail'],
+                            //   "restaurant": data['restaurant']
+                            // });
                           }),
                     ),
                   ),

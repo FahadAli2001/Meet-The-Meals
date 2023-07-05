@@ -6,14 +6,10 @@ const OrdersModel = require('../Models/orders')
 
 router.get('/all',(req,res,next)=>{
     OrdersModel.find().then((order)=>{
-        res.status(200).json({
-            'orders':order
-        })
+        res.status(200).send(order)
     })
     .catch(err=>{
-        res.status(404).json({
-            "error_msg":err
-        })
+        res.status(404).send(err)
     })
 });
 

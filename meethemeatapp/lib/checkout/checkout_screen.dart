@@ -58,7 +58,8 @@ class CheckOutScreen extends StatelessWidget {
                         color: primaryColor,
                         child: const Text("Place Order"),
                         onPressed: () {
-                          Get.to(() => const DeliveryScreen());
+                        //  Get.to(() => const DeliveryScreen());
+                        
                         }),
                   ),
                 ],
