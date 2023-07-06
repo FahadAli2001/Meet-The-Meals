@@ -4,9 +4,7 @@ const bodyParser = require('body-parser');
 
 const app = express();
 
-
-
-
+const port = 3000;
 // mongodb://localhost:27017/
 
 // mongodb+srv://fahad2001:fahad2001@cluster0.knrcws8.mongodb.net/?retryWrites=true&w=majority
@@ -54,8 +52,8 @@ app.use((req,res)=>{
     })
 })
 
-app.listen(3000,()=>{
-    console.log('Server is connected on port 3000');
+app.listen(port,()=>{
+    console.log('Server is connected on port ' + port);
 });
 
 
