@@ -6,7 +6,7 @@ This innovative Food Delivery App connects users with local restaurants, enablin
 - Browse & Order: Access a wide selection of restaurants and place orders effortlessly.
 - Real-Time Tracking: Track your food from restaurant to delivery in real-time.
 - Seamless User Interface: Enjoy an intuitive, smooth experience with easy navigation.
-- Instant Updates: Get timely notifications for order status and delivery.
+
 
 **🛠 Technologies Used:**
 - Frontend: Built with Flutter for a responsive cross-platform experience.
